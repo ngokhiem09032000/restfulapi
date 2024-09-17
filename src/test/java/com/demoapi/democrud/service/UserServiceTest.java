@@ -4,6 +4,7 @@ import com.demoapi.democrud.dto.request.UserCreationRequest;
 import com.demoapi.democrud.dto.response.UserResponse;
 import com.demoapi.democrud.entity.User;
 import com.demoapi.democrud.exception.AppEXception;
+import com.demoapi.democrud.exception.ErrorCode;
 import com.demoapi.democrud.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,7 +85,7 @@ public class UserServiceTest {
     void createUser_userExisted_fail(){
         // GIVEN
 
-        Mockito.when(userRepository.existsByUserName(anyString())).thenReturn(true);
+        Mockito.when(userRepository.save(any())).thenThrow(new AppEXception(ErrorCode.USER_EXISTED));
 
         // When
         var exception = assertThrows(AppEXception.class, () ->userService.createUser(request));

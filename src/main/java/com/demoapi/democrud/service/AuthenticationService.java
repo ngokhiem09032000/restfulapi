@@ -66,6 +66,9 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request){
+
+        log.info("SignKey: {}", SIGNNER_KEY);
+
         var user = userRepository.findByUserName(request.getUserName())
                 .orElseThrow(() -> new AppEXception(ErrorCode.USER_NOT_EXISTED));
 

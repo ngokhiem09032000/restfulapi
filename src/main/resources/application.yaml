@@ -18,3 +18,5 @@ jwt:
   signerKey: "UM0WtBMa5k65DJ+2A29U4qELZ9yRSiBHWLSsQ/xJMXMJ83NeYA04cliMmZuS51qA\n"
   valid-duration: 3600 # in seconds
   refreshable-duration: 36000 # in seconds
+
+dbname: "demo_web"

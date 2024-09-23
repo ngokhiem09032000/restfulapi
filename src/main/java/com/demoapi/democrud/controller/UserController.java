@@ -12,8 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -70,6 +74,14 @@ public class UserController {
         return ApiResponse.builder()
                 .code(1000)
                 .result(userService.getMyInfo())
+                .build();
+    }
+
+    @GetMapping("/keys")
+    ApiResponse<Object> getAllUsers() {
+        return ApiResponse.builder()
+                .code(1000)
+                .result(userService.getColumnNames())
                 .build();
     }
 }

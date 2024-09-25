@@ -2,6 +2,7 @@ package com.demoapi.democrud.controller;
 
 import com.demoapi.democrud.dto.request.ApiResponse;
 import com.demoapi.democrud.dto.request.PermissionRequest;
+import com.demoapi.democrud.dto.request.PermissionUpdateRequest;
 import com.demoapi.democrud.dto.response.PermissionResponse;
 import com.demoapi.democrud.service.PermissionService;
 import lombok.AccessLevel;
@@ -43,4 +44,19 @@ public class PermissionController {
                 .build();
     }
 
+    @PutMapping("/{permission}")
+    ApiResponse<PermissionResponse> update(@PathVariable String permission, @RequestBody PermissionUpdateRequest request){
+        return ApiResponse.<PermissionResponse>builder()
+                .code(1000)
+                .result(permissionService.update(permission,request))
+                .build();
+    }
+
+    @GetMapping("/keys")
+    ApiResponse<Object> getAllKeys() {
+        return ApiResponse.builder()
+                .code(1000)
+                .result(permissionService.getColumnNames())
+                .build();
+    }
 }

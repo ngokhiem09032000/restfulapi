@@ -101,10 +101,12 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    public List<Map<String, Object>> getColumnNames() {
-        String sql = "SELECT COLUMN_NAME as keyName " +
-                " FROM information_schema.COLUMNS " +
-                " WHERE TABLE_NAME = 'user' AND TABLE_SCHEMA = '"+ dbname +"'";
-        return jdbcTemplate.queryForList(sql);
+    public List<String> getColumnNames() {
+        return User.getKeyNames();
+
+//        String sql = "SELECT COLUMN_NAME as keyName " +
+//                " FROM information_schema.COLUMNS " +
+//                " WHERE TABLE_NAME = 'user' AND TABLE_SCHEMA = '"+ dbname +"'";
+//        return jdbcTemplate.queryForList(sql);
     }
 }

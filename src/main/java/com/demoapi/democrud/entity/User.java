@@ -5,6 +5,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -26,4 +29,15 @@ public class User {
 
     @ManyToMany
     Set<Role> roles;
+
+    public static List<String> getKeyNames(){
+        List<String> k = new ArrayList<>();
+        k.add("id");
+        k.add("userName");
+        k.add("passWord");
+        k.add("fullName");
+        k.add("birthDate");
+        k.add("roles");
+        return k;
+    }
 }

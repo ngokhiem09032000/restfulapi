@@ -78,7 +78,7 @@ public class UserController {
     }
 
     @GetMapping("/keys")
-    ApiResponse<Object> getAllUsers() {
+    ApiResponse<Object> getAllKeys() {
         return ApiResponse.builder()
                 .code(1000)
                 .result(userService.getColumnNames())

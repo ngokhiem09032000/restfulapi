@@ -1,8 +1,12 @@
 package com.demoapi.democrud.service;
 
 import com.demoapi.democrud.dto.request.PermissionRequest;
+import com.demoapi.democrud.dto.request.PermissionUpdateRequest;
 import com.demoapi.democrud.dto.response.PermissionResponse;
+import com.demoapi.democrud.dto.response.RoleResponse;
 import com.demoapi.democrud.entity.Permission;
+import com.demoapi.democrud.exception.AppEXception;
+import com.demoapi.democrud.exception.ErrorCode;
 import com.demoapi.democrud.mapper.PermissionMapper;
 import com.demoapi.democrud.repository.PermissionRepository;
 import lombok.AccessLevel;
@@ -35,5 +39,19 @@ public class PermissionService {
 
     public void delete(String permission){
         permissionRepository.deleteById(permission);
+    }
+
+    public PermissionResponse update(String permissionId, PermissionUpdateRequest request){
+        Permission permission = permissionRepository.findById(permissionId)
+                .orElseThrow( () -> new AppEXception(ErrorCode.ROLE_NOT_FOUND) );
+
+        permissionMapper.updatePermission(permission, request);
+
+        permission = permissionRepository.save(permission);
+        return permissionMapper.toPermissionResponse(permission);
+    }
+
+    public List<String> getColumnNames() {
+        return Permission.getKeyNames();
     }
 }

@@ -96,7 +96,7 @@ public class AuthenticationService {
                 .issuer("khiemdev")
                 .issueTime(new Date())
                 .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
+                        Instant.now().plus(12, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .jwtID(UUID.randomUUID().toString())
                 .claim("scope",buildScope(user))
@@ -149,7 +149,7 @@ public class AuthenticationService {
 
         var verified = signedJWT.verify(verifier);
 
-        if( !verified && exprityTime.after(new Date()))
+        if( !verified || exprityTime.before(new Date()))
             throw new AppEXception(ErrorCode.UNAUTHENTICATED);
 
         if(invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))

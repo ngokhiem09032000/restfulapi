@@ -2,7 +2,10 @@ package com.demoapi.democrud.controller;
 
 import com.demoapi.democrud.dto.request.ApiResponse;
 import com.demoapi.democrud.dto.request.RoleRequest;
+import com.demoapi.democrud.dto.request.RoleUpdateRequest;
+import com.demoapi.democrud.dto.request.UserUpdateRequest;
 import com.demoapi.democrud.dto.response.RoleResponse;
+import com.demoapi.democrud.dto.response.UserResponse;
 import com.demoapi.democrud.service.RoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +43,22 @@ public class RoleController {
         roleService.delete(role);
         return ApiResponse.<Void>builder()
                 .code(1000)
+                .build();
+    }
+
+    @PutMapping("/{role}")
+    ApiResponse<RoleResponse> update(@PathVariable String role, @RequestBody RoleUpdateRequest request){
+        return ApiResponse.<RoleResponse>builder()
+                .code(1000)
+                .result(roleService.update(role,request))
+                .build();
+    }
+
+    @GetMapping("/keys")
+    ApiResponse<Object> getAllKeys() {
+        return ApiResponse.builder()
+                .code(1000)
+                .result(roleService.getColumnNames())
                 .build();
     }
 

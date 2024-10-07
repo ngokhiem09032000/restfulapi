@@ -3,6 +3,7 @@ package com.demoapi.democrud.service;
 import com.demoapi.democrud.dto.request.RoleRequest;
 import com.demoapi.democrud.dto.request.RoleUpdateRequest;
 import com.demoapi.democrud.dto.response.RoleResponse;
+import com.demoapi.democrud.dto.response.UserResponse;
 import com.demoapi.democrud.entity.Role;
 import com.demoapi.democrud.entity.User;
 import com.demoapi.democrud.exception.AppEXception;
@@ -14,6 +15,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -54,6 +59,15 @@ public class RoleService {
     public List<RoleResponse> getAll(){
         var roles = roleRepository.findAll();
         return roles.stream().map(roleMapper::toRoleResponse).toList();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public Page<RoleResponse> getRole(String keySearch, int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size); // Tạo đối tượng Pageable
+
+        return roleRepository.findByNameContainingOrDescriptionContaining(keySearch,keySearch, pageable)
+                .map(roleMapper::toRoleResponse);
     }
 
     public void delete(String role){

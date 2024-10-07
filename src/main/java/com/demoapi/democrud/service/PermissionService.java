@@ -13,6 +13,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +39,15 @@ public class PermissionService {
     public List<PermissionResponse> getAll(){
         var permissions = permissionRepository.findAll();
         return permissions.stream().map(permissionMapper::toPermissionResponse).toList();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public Page<PermissionResponse> getPermission(String keySearch, int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size); // Tạo đối tượng Pageable
+
+        return permissionRepository.findByNameContainingOrDescriptionContaining(keySearch,keySearch, pageable)
+                .map(permissionMapper::toPermissionResponse);
     }
 
     public void delete(String permission){

@@ -16,6 +16,9 @@ import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -68,6 +71,15 @@ public class UserService {
     public List<UserResponse> getUser(){
         log.info("In method get Users");
         return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public Page<UserResponse> getUser(String keySearch, int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size); // Tạo đối tượng Pageable
+
+        return userRepository.findByUserNameContainingOrFullNameContaining(keySearch,keySearch, pageable)
+                .map(userMapper::toUserResponse);
     }
 
     @PostAuthorize("returnObject.userName == authentication.name")

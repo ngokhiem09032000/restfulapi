@@ -36,6 +36,18 @@ public class PermissionController {
                 .build();
     }
 
+    @GetMapping("/search")
+    ApiResponse<Object> searchPermissions(
+            @RequestParam String keySearch,
+            @RequestParam int page,
+            @RequestParam int size) {
+
+        return ApiResponse.builder()
+                .code(1000)
+                .result(permissionService.getPermission(keySearch,page,size))
+                .build();
+    }
+
     @DeleteMapping("/{permission}")
     ApiResponse<Void> delete(@PathVariable String permission){
         permissionService.delete(permission);

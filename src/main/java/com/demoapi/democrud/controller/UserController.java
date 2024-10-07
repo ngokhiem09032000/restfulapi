@@ -36,14 +36,25 @@ public class UserController {
         return apiResponse;
     }
 
-    @GetMapping
-    ApiResponse<Object> getUsers(){
+    @GetMapping("/search")
+    ApiResponse<Object> searchUsers(
+            @RequestParam String keySearch,
+            @RequestParam int page,
+            @RequestParam int size) {
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
         log.info("Username: {}", authentication.getName());
         authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
+        return ApiResponse.builder()
+                .code(1000)
+                .result(userService.getUser(keySearch,page,size))
+                .build();
+    }
+
+    @GetMapping
+    ApiResponse<Object> getUser(){
         return ApiResponse.builder()
                 .code(1000)
                 .result(userService.getUser())

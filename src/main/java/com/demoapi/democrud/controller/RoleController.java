@@ -10,6 +10,7 @@ import com.demoapi.democrud.service.RoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +36,18 @@ public class RoleController {
         return ApiResponse.<List<RoleResponse>>builder()
                 .code(1000)
                 .result(roleService.getAll())
+                .build();
+    }
+
+    @GetMapping("/search")
+    ApiResponse<Object> searchRoles(
+            @RequestParam String keySearch,
+            @RequestParam int page,
+            @RequestParam int size) {
+
+        return ApiResponse.builder()
+                .code(1000)
+                .result(roleService.getRole(keySearch,page,size))
                 .build();
     }
 

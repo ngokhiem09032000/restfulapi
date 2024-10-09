@@ -20,8 +20,10 @@ import org.springframework.web.filter.CorsFilter;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private static final String[] PUBLIC_ENDPOINT = {"/users", "/auth/token"
+    private static final String[] PUBLIC_ENDPOINT_POST = {"/users", "/auth/token"
             , "/auth/introspect", "/auth/logout", "/auth/refresh"};
+    private static final String[] PUBLIC_ENDPOINT_GET = {"/products/product-view", "/upload/{fileName}"
+            ,"/products/{id}"};
 
     private final CustomJwtDecoder customJwtDecoder;
 
@@ -32,7 +34,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINT).permitAll()
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINT_POST).permitAll()
+                        .requestMatchers(HttpMethod.GET,PUBLIC_ENDPOINT_GET).permitAll()
                         .anyRequest().authenticated()
                 );
         http.oauth2ResourceServer(oauth2 ->
@@ -46,13 +49,32 @@ public class SecurityConfig {
         return http.build();
     }
 
+//    @Bean
+//    public CorsFilter corsFilter(){
+//        CorsConfiguration corsConfiguration = new CorsConfiguration();
+//
+//        corsConfiguration.addAllowedOrigin("*");
+//        corsConfiguration.addAllowedMethod("*");
+//        corsConfiguration.addAllowedHeader("*");
+//
+//        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+//        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+//
+//        return new CorsFilter(urlBasedCorsConfigurationSource);
+//    }
+
     @Bean
-    public CorsFilter corsFilter(){
+    public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.addAllowedOrigin("*");
+        // Chỉ định domain frontend của bạn
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+        corsConfiguration.addAllowedOrigin("http://localhost:3001");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
+
+        // Nếu bạn cần thông tin xác thực như cookie, session
+        corsConfiguration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);

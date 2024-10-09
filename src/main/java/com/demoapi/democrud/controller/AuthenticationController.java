@@ -3,7 +3,6 @@ package com.demoapi.democrud.controller;
 import com.demoapi.democrud.dto.request.*;
 import com.demoapi.democrud.dto.response.AuthenticationResponse;
 import com.demoapi.democrud.dto.response.IntrospectResponse;
-import com.demoapi.democrud.entity.User;
 import com.demoapi.democrud.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;

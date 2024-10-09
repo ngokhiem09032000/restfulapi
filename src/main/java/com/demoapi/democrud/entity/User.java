@@ -24,6 +24,7 @@ public class User {
     @Column(name = "user_name" , unique = true, columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String userName;
     String passWord;
+    @Column(name = "full_name" , columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String fullName;
     LocalDate birthDate;
 

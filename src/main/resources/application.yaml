@@ -2,17 +2,24 @@ server:
   port: 8080
   servlet:
     context-path: /demo1
-
 spring:
   datasource:
-    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3306/demo_web}
+    url: "jdbc:mysql://sql12.freesqldatabase.com:3306/sql12736406"
     driverClassName: "com.mysql.cj.jdbc.Driver"
-    username: ${DBMS_USERNAME:root}
-    password: ${DBMS_PASSWORD:root}
+    username: "sql12736406"
+    password: "DavtN2YNcA"
+#    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3306/demo_web}
+#    driverClassName: "com.mysql.cj.jdbc.Driver"
+#    username: ${DBMS_USERNAME:root}
+#    password: ${DBMS_PASSWORD:root}
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
 
 jwt:
   signerKey: "UM0WtBMa5k65DJ+2A29U4qELZ9yRSiBHWLSsQ/xJMXMJ83NeYA04cliMmZuS51qA\n"

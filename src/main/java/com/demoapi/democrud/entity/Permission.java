@@ -1,5 +1,6 @@
 package com.demoapi.democrud.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -17,6 +18,8 @@ import java.util.List;
 public class Permission {
     @Id
     String name;
+
+    @Column(name = "description" , columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String description;
 
     public static List<String> getKeyNames(){

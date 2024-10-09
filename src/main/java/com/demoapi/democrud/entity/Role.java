@@ -1,5 +1,6 @@
 package com.demoapi.democrud.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -19,6 +20,8 @@ import java.util.Set;
 public class Role {
     @Id
     String name;
+
+    @Column(name = "description" , columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String description;
 
     @ManyToMany

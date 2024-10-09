@@ -19,6 +19,7 @@ public enum ErrorCode {
     INVALID_TOKEN(1010,"Token invalid", HttpStatus.UNAUTHORIZED),
     ROLE_NOT_FOUND(1011,"Role not found", HttpStatus.BAD_REQUEST),
     PERMISSION_NOT_FOUND(1012,"Permission not found", HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_FOUND(1013,"Product not found", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

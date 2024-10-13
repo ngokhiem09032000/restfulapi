@@ -15,11 +15,9 @@ import java.time.LocalDate;
 public class ProductCreateRequest {
     String name;
     String description;
-    Size size;
     String color;
     String material;
     BigDecimal price;
-    int stock = 0; // Số lượng tồn kho
 
     String imageUrl;
 

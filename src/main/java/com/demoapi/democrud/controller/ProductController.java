@@ -87,4 +87,13 @@ public class ProductController {
                 .result(product)
                 .build();
     }
+
+    @PostMapping("/products-by-ids")
+    public ApiResponse<List<ProductResponse>> getProductsByIds(@RequestBody List<String> ids) {
+        List<ProductResponse> products = productService.getProductsByIds(ids);
+        return ApiResponse.<List<ProductResponse>>builder()
+                .code(1000)
+                .result(products)
+                .build();
+    }
 }

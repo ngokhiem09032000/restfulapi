@@ -7,9 +7,9 @@ import com.demoapi.democrud.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {SizeMapper.class})
 public interface ProductMapper {
     Product toProduct(ProductCreateRequest request);
-    ProductResponse toProductResponse(Product user);
+    ProductResponse toProductResponse(Product product);
     void updateProduct(@MappingTarget Product product, ProductUpdateRequest request);
 }

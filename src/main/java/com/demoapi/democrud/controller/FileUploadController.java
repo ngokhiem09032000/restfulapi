@@ -82,4 +82,28 @@ public class FileUploadController {
                 .body(new FileSystemResource(file)); // Sử dụng FileSystemResource để trả về file
     }
 
+    @DeleteMapping("/{fileName}")
+    public ResponseEntity<?> deleteFile(@PathVariable String fileName) {
+        Path filePath = Paths.get(UPLOAD_DIR, fileName);
+        File file = filePath.toFile();
+
+        if (!file.exists()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "File not found"));
+        }
+
+        try {
+            if (file.delete()) {
+                return ResponseEntity.ok(Map.of("message", "File deleted successfully"));
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Map.of("error", "Failed to delete the file"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "An error occurred while deleting the file: " + e.getMessage()));
+        }
+    }
+
 }

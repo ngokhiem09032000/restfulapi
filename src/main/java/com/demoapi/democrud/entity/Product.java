@@ -1,12 +1,11 @@
 package com.demoapi.democrud.entity;
-
-import com.demoapi.democrud.enums.Size;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,10 +25,6 @@ public class Product {
     @Column(name = "description" , columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    Size size;
-
     String color;
 
     String material; // -- Chất liệu
@@ -37,8 +32,9 @@ public class Product {
     @Column(nullable = false, precision = 10, scale = 2)
     BigDecimal price;
 
-    @Column(nullable = false)
-    int stock = 0; // -- Số lượng tồn kho
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ToString.Exclude // Bỏ qua sizes khi gọi toString
+    List<Size> sizes;
 
     String imageUrl;
 

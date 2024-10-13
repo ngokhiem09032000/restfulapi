@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -72,7 +73,7 @@ public class ProductService {
 
         Pageable pageable = PageRequest.of(page, size); // Tạo đối tượng Pageable
 
-        return productRepository.findByNameContainingAndStockGreaterThanAndPriceBetween(keySearch,stock,minPrice,maxPrice,pageable)
+        return productRepository.findByNameContainingAndTotalStockGreaterThanAndPriceBetween(keySearch,stock,minPrice,maxPrice,pageable)
                 .map(productMapper::toProductResponse);
     }
 
@@ -81,8 +82,30 @@ public class ProductService {
     }
 
     public ProductResponse getProduct(String id){
-        log.info("In method get user by Id");
-        return productMapper.toProductResponse(productRepository.findById(id).orElseThrow( () -> new AppEXception(ErrorCode.PRODUCT_NOT_FOUND) ));
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new AppEXception(ErrorCode.PRODUCT_NOT_FOUND));
+
+        // Sắp xếp sizes theo thứ tự S, M, L, XL, XXL
+        product.getSizes().sort((size1, size2) -> {
+            List<String> order = List.of("S", "M", "L", "XL", "XXL");
+            return Integer.compare(order.indexOf(size1.getId().getName().name()), order.indexOf(size2.getId().getName().name()));
+        });
+
+        return productMapper.toProductResponse(product);
+    }
+
+    public List<ProductResponse> getProductsByIds(List<String> ids) {
+        List<Product> products = productRepository.findAllById(ids);
+
+        if (products.isEmpty()) {
+            throw new AppEXception(ErrorCode.PRODUCT_NOT_FOUND);
+        }
+
+        // Convert List<Product> to List<ProductResponse> using your mapper
+        return products.stream()
+                .map(productMapper::toProductResponse)
+                .collect(Collectors.toList());
     }
 
 }

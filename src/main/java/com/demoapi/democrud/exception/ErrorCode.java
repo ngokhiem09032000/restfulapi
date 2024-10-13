@@ -20,6 +20,9 @@ public enum ErrorCode {
     ROLE_NOT_FOUND(1011,"Role not found", HttpStatus.BAD_REQUEST),
     PERMISSION_NOT_FOUND(1012,"Permission not found", HttpStatus.BAD_REQUEST),
     PRODUCT_NOT_FOUND(1013,"Product not found", HttpStatus.BAD_REQUEST),
+    FULL_NAME_INVALID(1014,"Full name must be at least {min} characters", HttpStatus.BAD_REQUEST),
+    SIZE_NOT_FOUND(1015,"Size not found", HttpStatus.BAD_REQUEST),
+    SAVE_ORDER_FAIL(1016,"Save order fail", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

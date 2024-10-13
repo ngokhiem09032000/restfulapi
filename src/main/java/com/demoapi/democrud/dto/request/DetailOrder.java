@@ -1,27 +1,30 @@
 package com.demoapi.democrud.dto.request;
 
-import com.demoapi.democrud.enums.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductUpdateRequest {
+public class DetailOrder {
+
+    String id; // id product
+
     String name;
-    String description;
-    String color;
-    String material;
+
     BigDecimal price;
 
+    String color;
+
+    private com.demoapi.democrud.enums.Size size;
+
+    int amount;
+
+    BigDecimal totalPrice;
+
     String imageUrl;
-
-    String imageUrl2;
-
-    String imageUrl3;
 }

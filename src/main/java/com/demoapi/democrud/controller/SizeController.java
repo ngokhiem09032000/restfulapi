@@ -9,6 +9,7 @@ import com.demoapi.democrud.entity.SizeId;
 import com.demoapi.democrud.exception.AppEXception;
 import com.demoapi.democrud.exception.ErrorCode;
 import com.demoapi.democrud.repository.ProductRepository;
+import com.demoapi.democrud.repository.SizeRepository;
 import com.demoapi.democrud.service.PermissionService;
 import com.demoapi.democrud.service.ProductService;
 import com.demoapi.democrud.service.SizeService;
@@ -29,6 +30,7 @@ public class SizeController {
 
     SizeService sizeService;
     ProductRepository productRepository;
+    SizeRepository sizeRepository;
 
     @PostMapping
     ApiResponse<SizeResponse> create(@RequestBody SizeRequest request){
@@ -96,4 +98,31 @@ public class SizeController {
                 .build();
     }
 
+    @PostMapping("/update-stock")
+    ApiResponse<String> updateStock(@RequestBody List<UpdateStockRequest> requests){
+        List<Size> sizes = new ArrayList<>();
+        for (UpdateStockRequest sizeObj : requests) {
+            Product product = productRepository.findById(sizeObj.getId())
+                    .orElseThrow( () -> new AppEXception(ErrorCode.PRODUCT_NOT_FOUND));
+            SizeId sizeIdObj = new SizeId();
+            sizeIdObj.setName(com.demoapi.democrud.enums.Size.valueOf(sizeObj.getSize()));
+            sizeIdObj.setProductId(sizeObj.getId());
+            Size size = sizeRepository.findById(sizeIdObj)
+                    .orElseThrow( () -> new AppEXception(ErrorCode.SIZE_NOT_FOUND));
+
+            int stock = size.getStock() - sizeObj.getAmount();
+            stock = Math.max(stock, 0);
+
+            sizes.add(Size.builder()
+                    .id(sizeIdObj)
+                    .stock(stock)
+                    .product(product)
+                    .build());
+        }
+        sizeRepository.saveAll(sizes);
+        return ApiResponse.<String>builder()
+                .code(1000)
+                .result("Update stock success")
+                .build();
+    }
 }

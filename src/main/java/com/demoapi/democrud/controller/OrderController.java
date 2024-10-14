@@ -31,4 +31,11 @@ public class OrderController {
                 .build();
     }
 
+    @GetMapping("/{userName}")
+    ApiResponse<List<Order>> getOrder(@PathVariable("userName") String userName){
+        return ApiResponse.<List<Order>>builder()
+                .code(1000)
+                .result(orderService.getOrderByUserName(userName))
+                .build();
+    }
 }

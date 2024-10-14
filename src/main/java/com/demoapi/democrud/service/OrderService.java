@@ -5,6 +5,7 @@ import com.demoapi.democrud.dto.request.OrderRequest;
 import com.demoapi.democrud.dto.request.ProductCreateRequest;
 import com.demoapi.democrud.dto.request.ProductUpdateRequest;
 import com.demoapi.democrud.dto.response.ProductResponse;
+import com.demoapi.democrud.dto.response.UserResponse;
 import com.demoapi.democrud.entity.Order;
 import com.demoapi.democrud.entity.OrderDetail;
 import com.demoapi.democrud.entity.Product;
@@ -76,4 +77,12 @@ public class OrderService {
 
     }
 
+    public List<Order> getOrderByUserName(String userName){
+        try {
+            log.info("In method get user by Id");
+            return orderRepository.findByUserName(userName);
+        }catch (Exception e) {
+            throw new AppEXception(ErrorCode.FIND_ORDERS_BY_USER_FAIL);
+        }
+    }
 }

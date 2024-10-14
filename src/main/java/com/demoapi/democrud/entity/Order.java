@@ -44,8 +44,8 @@ public class Order {
     @Column(nullable = false) // tình trạng thanh toán
     int statusPay = 0; // 0 đang chờ thanh toán , 1 Đã thanh toán
 
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @ToString.Exclude // Bỏ qua sizes khi gọi toString
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude // Bỏ qua orderDetails khi gọi toString
     List<OrderDetail> orderDetails;
 
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -42,6 +42,7 @@ public class OrderDetail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
-    @ToString.Exclude // Bỏ qua product khi gọi toString
+    @ToString.Exclude // Bỏ qua order khi gọi toString
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Order order;
 }

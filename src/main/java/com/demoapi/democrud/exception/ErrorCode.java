@@ -23,6 +23,7 @@ public enum ErrorCode {
     FULL_NAME_INVALID(1014,"Full name must be at least {min} characters", HttpStatus.BAD_REQUEST),
     SIZE_NOT_FOUND(1015,"Size not found", HttpStatus.BAD_REQUEST),
     SAVE_ORDER_FAIL(1016,"Save order fail", HttpStatus.BAD_REQUEST),
+    FIND_ORDERS_BY_USER_FAIL(1017,"Find orders by user name fail", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

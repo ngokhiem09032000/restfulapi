@@ -23,7 +23,7 @@ public class SecurityConfig {
     private static final String[] PUBLIC_ENDPOINT_POST = {"/users", "/auth/token"
             , "/auth/introspect", "/auth/logout", "/auth/refresh", "/products/products-by-ids", "/orders"};
     private static final String[] PUBLIC_ENDPOINT_GET = {"/products/product-view", "/upload/{fileName}"
-            ,"/products/{id}"};
+            ,"/products/{id}", "/orders/{userName}"};
 
     private final CustomJwtDecoder customJwtDecoder;
 

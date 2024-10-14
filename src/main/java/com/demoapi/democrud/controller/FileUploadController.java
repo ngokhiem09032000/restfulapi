@@ -4,6 +4,8 @@ import com.demoapi.democrud.service.AuthenticationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,8 +27,12 @@ public class FileUploadController {
 
     private static final String UPLOAD_DIR = "uploads/";
 
+    @NonFinal
+    @Value("${host-address}")
+    protected String hostAddress;
+
     @PostMapping
-    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("image") MultipartFile file) {
+    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("image") MultipartFile file, @RequestParam("image2") MultipartFile file2, @RequestParam("image3") MultipartFile file3) {
         // Tạo thư mục lưu trữ với đường dẫn tuyệt đối
         String absoluteUploadDir = Paths.get(UPLOAD_DIR).toAbsolutePath().toString();
         File uploadDir = new File(absoluteUploadDir);
@@ -46,11 +52,24 @@ public class FileUploadController {
             Path filePath = Paths.get(absoluteUploadDir, fileName);
             file.transferTo(filePath.toFile()); // Lưu file
 
+            String fileName2 = System.currentTimeMillis() + "2_" + file2.getOriginalFilename();
+            Path filePath2 = Paths.get(absoluteUploadDir, fileName2);
+            file2.transferTo(filePath2.toFile()); // Lưu file
+
+            String fileName3 = System.currentTimeMillis() + "3_" + file3.getOriginalFilename();
+            Path filePath3 = Paths.get(absoluteUploadDir, fileName3);
+            file3.transferTo(filePath3.toFile()); // Lưu file
+
             // Trả về URL của file đã upload
-            String fileUrl = "http://localhost:8080/uploads/" + fileName;
+
+            String fileUrl = hostAddress + UPLOAD_DIR + fileName;
+            String fileUrl2 = hostAddress + UPLOAD_DIR + fileName2;
+            String fileUrl3 = hostAddress + UPLOAD_DIR + fileName3;
 
             Map<String, String> response = new HashMap<>();
             response.put("url", fileUrl);
+            response.put("url2", fileUrl2);
+            response.put("url3", fileUrl3);
 
             return ResponseEntity.ok(response);
 

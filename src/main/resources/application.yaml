@@ -27,3 +27,4 @@ jwt:
   refreshable-duration: 36000 # in seconds
 
 dbname: "demo_web"
+host-address: ${HOST_ADDRESS:http://localhost:8080/}

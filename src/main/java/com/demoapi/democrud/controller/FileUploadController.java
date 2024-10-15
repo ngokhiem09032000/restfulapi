@@ -31,6 +31,10 @@ public class FileUploadController {
     @Value("${host-address}")
     protected String hostAddress;
 
+    @NonFinal
+    @Value("${host-port}")
+    protected String hostPort;
+
     @PostMapping
     public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("image") MultipartFile file, @RequestParam("image2") MultipartFile file2, @RequestParam("image3") MultipartFile file3) {
         // Tạo thư mục lưu trữ với đường dẫn tuyệt đối
@@ -62,9 +66,9 @@ public class FileUploadController {
 
             // Trả về URL của file đã upload
 
-            String fileUrl = hostAddress + UPLOAD_DIR + fileName;
-            String fileUrl2 = hostAddress + UPLOAD_DIR + fileName2;
-            String fileUrl3 = hostAddress + UPLOAD_DIR + fileName3;
+            String fileUrl = hostAddress + hostPort + "/" + UPLOAD_DIR + fileName;
+            String fileUrl2 = hostAddress + hostPort + "/" + UPLOAD_DIR + fileName2;
+            String fileUrl3 = hostAddress + hostPort + "/" + UPLOAD_DIR + fileName3;
 
             Map<String, String> response = new HashMap<>();
             response.put("url", fileUrl);

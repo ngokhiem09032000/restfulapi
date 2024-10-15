@@ -1,4 +1,6 @@
 package com.demoapi.democrud.configuration;
+import lombok.experimental.NonFinal;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,6 +21,14 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    @NonFinal
+    @Value("${host-address}")
+    protected String hostAddress;
+
+    @NonFinal
+    @Value("${host-port-cors}")
+    protected String hostPortCORS;
 
     private static final String[] PUBLIC_ENDPOINT_POST = {"/users", "/auth/token"
             , "/auth/introspect", "/auth/logout", "/auth/refresh", "/products/products-by-ids", "/orders", "/sizes/update-stock"};
@@ -68,8 +78,10 @@ public class SecurityConfig {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
         // Chỉ định domain frontend của bạn
+//        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+//        corsConfiguration.addAllowedOrigin("http://localhost:3001");
+        corsConfiguration.addAllowedOrigin(hostAddress + hostPortCORS);
         corsConfiguration.addAllowedOrigin("http://localhost:3000");
-        corsConfiguration.addAllowedOrigin("http://localhost:3001");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
 
